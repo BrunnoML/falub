@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalhos Publicados - PosFalub</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <style>
+        .trabalhos-container { max-width: 900px; margin: 40px auto; padding: 20px; background: #fffbea; border-radius: 8px; }
+        .trabalho-item { border-bottom: 1px solid #eee; padding: 15px 0; }
+        .trabalho-item:last-child { border-bottom: none; }
+        .trabalho-item h3 { color: #b68c00; margin-bottom: 5px; }
+        .trabalho-item p { margin-bottom: 3px; font-size: 0.9em; }
+        .trabalho-item a { color: #3e7c45; text-decoration: none; font-weight: bold;}
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="trabalhos-container">
+            <h2>Trabalhos Científicos Publicados</h2>
+            <div id="lista-trabalhos">
+                <p>Carregando trabalhos...</p>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Carregar header e footer
+        fetch('partials/header.html').then(r => r.text()).then(d => document.getElementById('header-placeholder').innerHTML = d);
+        fetch('partials/footer.html').then(r => r.text()).then(d => document.getElementById('footer-placeholder').innerHTML = d);
+
+        // URL do Google Apps Script para buscar trabalhos (você criará essa função doGet)
+        const GET_TRABALHOS_URL = 'https://script.google.com/macros/s/AKfycbxplelC268qFPg-DePCfvPba_1qG2LUA9EET2fn7qgEbbi-UwgQ6Ht0r7PjfvdZRbIO/exec'; 
+        const listaTrabalhosDiv = document.getElementById('lista-trabalhos');
+
+        fetch(GET_TRABALHOS_URL)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.trabalhos.length > 0) {
+                    listaTrabalhosDiv.innerHTML = ''; // Limpa o "Carregando..."
+                    // Agrupar por curso
+                    const trabalhosPorCurso = data.trabalhos.reduce((acc, trab) => {
+                        const curso = trab.curso || 'Curso Não Especificado';
+                        if (!acc[curso]) {
+                            acc[curso] = [];
+                        }
+                        acc[curso].push(trab);
+                        return acc;
+                    }, {});
+
+                    for (const curso in trabalhosPorCurso) {
+                        const cursoDiv = document.createElement('div');
+                        cursoDiv.innerHTML = `<h3>${curso}</h3>`;
+                        trabalhosPorCurso[curso].forEach(trabalho => {
+                            const item = document.createElement('div');
+                            item.classList.add('trabalho-item');
+                            // Ajuste aqui para usar os nomes dos campos da planilha
+                            item.innerHTML = `
+                                <h4>${trabalho.tituloTrabalho || 'Título não disponível'}</h4>
+                                <p><strong>Autor:</strong> ${trabalho.nomeAluno || 'Autor não informado'}</p>
+                                <p><strong>Publicado em:</strong> ${trabalho.dataPublicacao || 'Data não informada'}</p>
+                                <p><a href="${trabalho.linkTrabalhoDrive}" target="_blank" rel="noopener noreferrer">Visualizar Trabalho (PDF)</a></p>
+                            `;
+                            cursoDiv.appendChild(item);
+                        });
+                        listaTrabalhosDiv.appendChild(cursoDiv);
+                    }
+                } else if (data.trabalhos.length === 0) {
+                    listaTrabalhosDiv.innerHTML = '<p>Nenhum trabalho publicado no momento.</p>';
+                } else {
+                    listaTrabalhosDiv.innerHTML = '<p>Erro ao carregar trabalhos: ' + (data.error || 'Erro desconhecido') + '</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar trabalhos:', error);
+                listaTrabalhosDiv.innerHTML = '<p>Não foi possível carregar os trabalhos. Tente novamente mais tarde.</p>';
+            });
+    </script>
+</body>
+</html>

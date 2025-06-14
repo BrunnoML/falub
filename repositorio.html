@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repositório - PosFalub</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="repository">
+            <h2>Envie seu Trabalho Científico</h2>
+            <p>
+                <a href="https://drive.google.com/file/d/16zxbdD8awntCVD50gaibUdvfZbl_BPgh/view?usp=sharing" target="_blank">Baixar Termo de Autorização</a>
+            </p>
+            <form id="submission-form"> <!-- Removido method e enctype, pois o JS cuidará disso -->
+                <label for="nome">Nome Completo do Aluno:</label>
+                <input type="text" id="nome" name="nome" required>
+
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="curso">Curso:</label>
+                <input type="text" id="curso" name="curso" required>
+
+                <label for="tituloTrabalho">Título do Trabalho:</label>
+                <input type="text" id="tituloTrabalho" name="tituloTrabalho" required>
+
+                <label for="trabalho">Trabalho Científico (PDF):</label>
+                <input type="file" id="trabalho" name="trabalho" accept="application/pdf" required>
+
+                <label for="termo">Termo Assinado (PDF):</label>
+                <input type="file" id="termo" name="termo" accept="application/pdf" required>
+
+                <button type="submit">Enviar</button>
+                <div id="form-status" style="margin-top: 15px;"></div>
+            </form>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Carregar header e footer
+        fetch('partials/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+            });
+
+        fetch('partials/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
+
+        // Lógica de envio do formulário
+        const submissionForm = document.getElementById('submission-form');
+        const formStatus = document.getElementById('form-status');
+        // Substitua pela URL do seu Web App publicado do Google Apps Script
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxplelC268qFPg-DePCfvPba_1qG2LUA9EET2fn7qgEbbi-UwgQ6Ht0r7PjfvdZRbIO/exec'; 
+
+        submissionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            formStatus.textContent = 'Enviando...';
+            formStatus.style.color = 'orange';
+
+            const formData = new FormData(this);
+            
+            // Adicionando arquivos como base64 para simplificar o envio para Apps Script
+            // Apps Script lida melhor com blobs ou base64 para arquivos via fetch de cliente
+            const trabalhoFile = formData.get('trabalho');
+            const termoFile = formData.get('termo');
+
+            Promise.all([
+                readFileAsBase64(trabalhoFile),
+                readFileAsBase64(termoFile)
+            ]).then(base64Files => {
+                const payload = {
+                    nome: formData.get('nome'),
+                    email: formData.get('email'),
+                    curso: formData.get('curso'),
+                    tituloTrabalho: formData.get('tituloTrabalho'),
+                    trabalhoFile: {
+                        fileName: trabalhoFile.name,
+                        mimeType: trabalhoFile.type,
+                        data: base64Files[0].split(',')[1] // Remove o prefixo data:mime/type;base64,
+                    },
+                    termoFile: {
+                        fileName: termoFile.name,
+                        mimeType: termoFile.type,
+                        data: base64Files[1].split(',')[1] // Remove o prefixo data:mime/type;base64,
+                    }
+                };
+
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'cors' // Necessário se o Apps Script estiver configurado para permitir
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        formStatus.textContent = 'Arquivos enviados com sucesso!';
+                        formStatus.style.color = 'green';
+                        submissionForm.reset();
+                    } else {
+                        formStatus.textContent = 'Erro ao enviar: ' + (data.error || 'Erro desconhecido.');
+                        formStatus.style.color = 'red';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro no fetch:', error);
+                    formStatus.textContent = 'Erro de comunicação ao enviar. Tente novamente.';
+                    formStatus.style.color = 'red';
+                });
+            });
+        });
+
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
+</body>
+</html>
