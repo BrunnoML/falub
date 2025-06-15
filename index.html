@@ -26,6 +26,9 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('header-placeholder').innerHTML = data;
+                if (typeof inicializarMenuMobile === 'function') { // Verifica se a função existe
+                    inicializarMenuMobile(); // Chama a função DEPOIS que o header foi carregado
+                }
             });
 
         fetch('partials/footer.html')

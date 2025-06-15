@@ -101,7 +101,7 @@ main {
 }
 
 .section1 img {
-    max-width: 40%;
+    max-width: 100%;
     height: auto;
     margin-bottom: 20px;
     padding: 20px;
@@ -224,3 +224,40 @@ footer img {
 #submission-form button:hover {
     background: #7c5c00;
 }
+
+/* Estilos da página de trabalhos (movido de trabalhos.html) */
+ .trabalhos-container {
+     max-width: 900px;
+     margin: 40px auto; /* Ajuste a margem superior se o main já tem margem-top */
+     padding: 20px;
+     background: #fffbea;
+     border-radius: 8px;
+ }
+ .trabalho-item {
+     border-bottom: 1px solid #eee;
+     padding: 15px 0;
+ }
+ .trabalho-item:last-child {
+     border-bottom: none;
+ }
+ /* .trabalho-item h3 já tem um estilo global, mas se precisar de especificidade: */
+ .trabalhos-container .trabalho-item h3 { /* Exemplo de especificidade */
+     color: #b68c00;
+     margin-bottom: 5px;
+ }
+ .trabalho-item p {
+     margin-bottom: 3px;
+     font-size: 0.9em;
+ }
+ .trabalho-item a {
+     color: #3e7c45;
+     text-decoration: none;
+     font-weight: bold;
+ }
+ .curso-group h3 { /* Estilo para o título do curso */
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #3e7c45;
+    border-bottom: 2px solid #3e7c45;
+    padding-bottom: 5px;
+ }
