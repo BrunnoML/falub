@@ -24,8 +24,20 @@
 
     <script>
         // Carregar header e footer
-        fetch('partials/header.html').then(r => r.text()).then(d => document.getElementById('header-placeholder').innerHTML = d);
-        fetch('partials/footer.html').then(r => r.text()).then(d => document.getElementById('footer-placeholder').innerHTML = d);
+        fetch('partials/header.html')
+            .then(r => r.text())
+            .then(d => {
+                document.getElementById('header-placeholder').innerHTML = d;
+                if (typeof inicializarMenuMobile === 'function') { // Verifica se a função existe
+                    inicializarMenuMobile(); // Chama a função DEPOIS que o header foi carregado
+                }
+            });
+
+        fetch('partials/footer.html')
+            .then(r => r.text())
+            .then(d => {
+                document.getElementById('footer-placeholder').innerHTML = d;
+            });
 
         // URL do Google Apps Script para buscar trabalhos (você criará essa função doGet)
         const GET_TRABALHOS_URL = 'https://script.google.com/macros/s/AKfycbxplelC268qFPg-DePCfvPba_1qG2LUA9EET2fn7qgEbbi-UwgQ6Ht0r7PjfvdZRbIO/exec'; 

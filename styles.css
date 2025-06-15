@@ -30,15 +30,17 @@ header .logo img {
     height: 50px;
 }
 
-/* Estilos de navegação */
-nav ul {
+/* Estilos de navegação base */
+nav ul { /* Corresponde a .nav-list */
     list-style: none;
-    display: flex;
+    display: flex; /* Para desktop */
     position: relative;
+    margin: 0; /* Remova margens padrão de ul */
+    padding: 0; /* Remova paddings padrão de ul */
 }
 
 nav ul li {
-    margin: 0 10px;
+    margin: 0 10px; /* Espaçamento para desktop */
     position: relative;
 }
 
@@ -46,39 +48,69 @@ nav ul li a {
     color: #fff;
     text-decoration: none;
     font-size: 16px;
+    padding: 10px 0; /* Adicione padding para melhor área de clique */
+    display: block;
 }
 
-
-/* Menu Toggle */
+/* Menu Toggle (ícone hambúrguer) */
 .menu-toggle {
-    display: none;
+    display: none; /* Escondido por padrão (desktop) */
     flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
     cursor: pointer;
+    padding: 5px; /* Área de clique um pouco maior */
+    box-sizing: border-box;
 }
 
 .bar {
+    width: 100%;
     height: 3px;
-    width: 25px;
     background-color: #fff;
-    margin: 4px 0;
+    border-radius: 2px;
 }
 
-/* Responsive Design */
+/* Responsive Design - Mobile */
 @media (max-width: 768px) {
-    nav ul {
-        display: none;
+    header nav ul { /* O .nav-list */
+        display: none; /* **IMPORTANTE: Escondido por padrão no mobile** */
         flex-direction: column;
         width: 100%;
+        background-color: #333; /* Cor de fundo para o menu dropdown */
+        position: absolute;
+        top: 60px; /* Ajuste conforme a altura do seu header */
+        left: 0;
+        padding: 0;
+        z-index: 999;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    header nav ul.active { /* **IMPORTANTE: Estilo para quando o menu está ativo/aberto** */
+        display: flex !important; /* Usa !important para garantir que sobreponha o display: none */
+    }
+
+    header nav ul li {
+        margin: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    header nav ul li a {
+        padding: 15px 20px;
+        border-bottom: 1px solid #444; /* Separador entre itens */
+    }
+
+    header nav ul li:last-child a {
+        border-bottom: none;
     }
 
     .menu-toggle {
-        display: flex;
+        display: flex; /* Mostra o ícone hambúrguer no mobile */
     }
 
-    .nav-list.active {
-        display: flex;
-    }
-
+    /* Se você tem um nav ul diferente para desktop que precisa ser escondido, faça aqui */
+    /* Ex: .desktop-nav { display: none; } */
 }
 
 main {
