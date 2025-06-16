@@ -1,3 +1,4 @@
+
 function inicializarMenuMobile() {
     const menuToggle = document.getElementById('menu-toggle');
     const navList = document.getElementById('nav-list');
@@ -95,4 +96,5 @@ function carregarTrabalhos() {
 document.addEventListener('DOMContentLoaded', function() {
     carregarTrabalhos();
 });
+
 
