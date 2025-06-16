@@ -26,7 +26,7 @@ function converterSheetParaCsv(url) {
     const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
     if (!idMatch) return url;
     const id = idMatch[1];
-    let gid = '0';
+    let gid = '1';
     const gidMatch = url.match(/[?&#]gid=([0-9]+)/);
     if (gidMatch) gid = gidMatch[1];
     return `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`;
