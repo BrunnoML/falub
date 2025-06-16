@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
 /* Estilos gerais */
 * {
     margin: 0;
@@ -7,7 +9,7 @@
 
 body {
     background: #fffde7;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -137,6 +139,29 @@ main {
     height: auto;
     margin-bottom: 20px;
     padding: 20px;
+}
+
+.section2 .btn-formulario {
+    display: inline-block;
+    padding: 16px 32px;
+    background: #1976d2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.2em;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+    transition: background 0.2s, box-shadow 0.2s;
+    margin-top: 32px;
+}
+
+.section2 .btn-formulario:hover {
+    background: #1251a3;
+    box-shadow: 0 4px 16px rgba(25, 118, 210, 0.16);
+}
+
+.section2 h2 {
+    margin-bottom: 32px;
 }
 
 footer {
