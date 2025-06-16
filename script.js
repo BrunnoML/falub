@@ -20,7 +20,7 @@ function inicializarMenuMobile() {
 
 // Outro código em script.js, se houver...
 // URL da planilha publicada (CSV ou JSON gerado por um Apps Script)
-const TRABALHOS_URL = 'PASTE_PUBLISHED_SHEET_URL_HERE';
+const TRABALHOS_URL = 'https://docs.google.com/spreadsheets/d/1D5DVJlqB3xXgKT9eN1uun5yG3LurOGqc48bmvWnVOc4/edit?usp=sharing';
 
 function parseCSV(text) {
     const lines = text.trim().split(/\r?\n/);
