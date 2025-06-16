@@ -5,7 +5,6 @@ function inicializarMenuMobile() {
     if (menuToggle && navList) {
         menuToggle.addEventListener('click', function() {
             navList.classList.toggle('active');
-            // Para depuração, adicione um console.log aqui:
             console.log('Menu toggle clicado, navList classes:', navList.className);
         });
     } else {
@@ -18,7 +17,71 @@ function inicializarMenuMobile() {
     }
 }
 
-// Outro código em script.js, se houver...
+// Link da planilha pública, aba RepositorioFalub (gid=0)
+const TRABALHOS_URL = 'https://docs.google.com/spreadsheets/d/1D5DVJlqB3xXgKT9eN1uun5yG3LurOGqc48bmvWnVOc4/export?format=csv&gid=0';
+
+function parseCSV(csvText) {
+    const lines = csvText.trim().split(/\r?\n/);
+    const headers = lines.shift().split(',');
+    return lines.map(line => {
+        const values = line.split(',');
+        const obj = {};
+        headers.forEach((h, i) => {
+            obj[h.trim()] = (values[i] || '').trim();
+        });
+        return obj;
+    });
+}
+
+function renderTrabalhos(trabalhos) {
+    const container = document.getElementById('lista-trabalhos');
+    if (!container) return;
+    if (!trabalhos.length) {
+        container.innerHTML = '<p>Nenhum trabalho publicado no momento.</p>';
+        return;
+    }
+    container.innerHTML = '';
+    const porCurso = trabalhos.reduce((acc, t) => {
+        const curso = t.Curso || 'Curso Não Especificado';
+        (acc[curso] = acc[curso] || []).push(t);
+        return acc;
+    }, {});
+    Object.keys(porCurso).forEach(curso => {
+        const divCurso = document.createElement('div');
+        divCurso.innerHTML = `<h3>${curso}</h3>`;
+        porCurso[curso].forEach(trab => {
+            if (trab.Status !== 'Publicado') return;
+            const item = document.createElement('div');
+            item.classList.add('trabalho-item');
+            item.innerHTML = `
+                <h4>${trab.TituloTrabalho || 'Título não disponível'}</h4>
+                <p><strong>Autor:</strong> ${trab.NomeAluno || 'Autor não informado'}</p>
+                <p><strong>Publicado em:</strong> ${trab.DataPublicacao || 'Data não informada'}</p>
+                <p><a href="${trab.LinkTrabalhoDrive}" target="_blank" rel="noopener noreferrer">Visualizar Trabalho (PDF)</a></p>
+            `;
+            divCurso.appendChild(item);
+        });
+        container.appendChild(divCurso);
+    });
+}
+
+function carregarTrabalhos() {
+    fetch(TRABALHOS_URL)
+        .then(r => r.text())
+        .then(csv => {
+            const dados = parseCSV(csv);
+            const filtrados = dados.filter(t => t.Status === 'Publicado' && t.LinkTrabalhoDrive);
+            renderTrabalhos(filtrados);
+        })
+        .catch(err => {
+            console.error('Erro ao buscar trabalhos:', err);
+            const container = document.getElementById('lista-trabalhos');
+            if (container) {
+                container.innerHTML = '<p>Não foi possível carregar os trabalhos.</p>';
+            }
+        });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Código que precisa que o DOM básico esteja pronto, mas não necessariamente o header dinâmico
+    carregarTrabalhos();
 });
