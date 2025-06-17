@@ -9,7 +9,6 @@
 </head>
 <body>
     <div id="header-placeholder"></div>
-
     <main>
         <div class="section1">
             <img src="img/index.png" alt="Imagem de fundo amarelo com nome da pós graduação e símbolo da FALUB">
@@ -17,25 +16,22 @@
         <div class="section2">
             <h2>Você está pronto para entrar nessa jornada de conhecimento?</h2>
             <p>
-                <a href="https://forms.gle/RStHLYnXrbUyeVgP8" target="_blank" class="btn-formulario" style="display:inline-block;padding:12px 24px;background:#1976d2;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;">
+                <a href="https://forms.gle/RStHLYnXrbUyeVgP8" target="_blank" class="btn-formulario">
                     Faça sua matrícula agora!
                 </a>
             </p>
         </div>
     </main>
-
     <div id="footer-placeholder"></div>
-
     <script>
         fetch('partials/header.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('header-placeholder').innerHTML = data;
-                if (typeof inicializarMenuMobile === 'function') { // Verifica se a função existe
-                    inicializarMenuMobile(); // Chama a função DEPOIS que o header foi carregado
+                if (typeof inicializarMenuMobile === 'function') {
+                    inicializarMenuMobile();
                 }
             });
-
         fetch('partials/footer.html')
             .then(response => response.text())
             .then(data => {

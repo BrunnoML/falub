@@ -9,7 +9,6 @@
 </head>
 <body>
     <div id="header-placeholder"></div>
-
     <main>
         <div class="section1">
             <img src="img/patioFalub.jpeg" alt="Imagem da praça da faculdade FALUB">
@@ -19,25 +18,19 @@
         </div>
         <div class="section3">
             <h3>FILOSOFIA</h3>
-            <br>
-            <p>Acreditamos que todos nós temos o poder de mudar nossas vidas dentro de nós. </p>
+            <p>Acreditamos que todos nós temos o poder de mudar nossas vidas dentro de nós.</p>
         </div>
-        <br>
-        <br>
     </main>
-
     <div id="footer-placeholder"></div>
-
     <script>
         fetch('partials/header.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('header-placeholder').innerHTML = data;
-                if (typeof inicializarMenuMobile === 'function') { // Verifica se a função existe
-                    inicializarMenuMobile(); // Chama a função DEPOIS que o header foi carregado
+                if (typeof inicializarMenuMobile === 'function') {
+                    inicializarMenuMobile();
                 }
             });
-
         fetch('partials/footer.html')
             .then(response => response.text())
             .then(data => {

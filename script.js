@@ -51,11 +51,21 @@ function renderTrabalhos(trabalhos) {
         divCurso.innerHTML = `<h3>${curso}</h3>`;
         porCurso[curso].forEach(trab => {
             if (trab.Status !== 'Publicado') return;
+            // Divide os nomes dos alunos por vírgula ou quebra de linha
+            const nomes = (trab.NomeAluno || '')
+                .split(/,|\n/)
+                .map(n => n.trim())
+                .filter(n => n);
+            const nomesHtml = nomes.length
+                ? `<ul style="margin: 0 0 8px 0; padding-left: 20px;">${nomes.map(n => `<li>${n}</li>`).join('')}</ul>`
+                : 'Autor(es) não informado(s)';
             const item = document.createElement('div');
             item.classList.add('trabalho-item');
             item.innerHTML = `
                 <h4>${trab.TituloTrabalho || 'Título não disponível'}</h4>
-                <p><strong>Autor:</strong> ${trab.NomeAluno || 'Autor não informado'}</p>
+                <p><strong>Autores:</strong></p>
+                ${nomesHtml}
+                <p><strong>Orientador(a):</strong> ${trab.NomeOrientador || 'Não informado'}</p>
                 <p><strong>Publicado em:</strong> ${trab.DataPublicacao || 'Data não informada'}</p>
                 <p><a href="${trab.LinkTrabalhoDrive}" target="_blank" rel="noopener noreferrer">Visualizar Trabalho (PDF)</a></p>
             `;

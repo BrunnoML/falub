@@ -14,7 +14,7 @@ body {
     padding: 0;
 }
 
-/* Estilos do cabeçalho */
+/* Cabeçalho */
 header {
     display: flex;
     justify-content: space-between;
@@ -32,37 +32,36 @@ header .logo img {
     height: 50px;
 }
 
-/* Estilos de navegação base */
-nav ul { /* Corresponde a .nav-list */
+/* Navegação */
+nav ul.nav-list {
     list-style: none;
-    display: flex; /* Para desktop */
-    position: relative;
-    margin: 0; /* Remova margens padrão de ul */
-    padding: 0; /* Remova paddings padrão de ul */
+    display: flex;
+    margin: 0;
+    padding: 0;
 }
 
-nav ul li {
-    margin: 0 10px; /* Espaçamento para desktop */
+nav ul.nav-list li {
+    margin: 0 10px;
     position: relative;
 }
 
-nav ul li a {
+nav ul.nav-list li a {
     color: #fff;
     text-decoration: none;
     font-size: 16px;
-    padding: 10px 0; /* Adicione padding para melhor área de clique */
+    padding: 10px 0;
     display: block;
 }
 
-/* Menu Toggle (ícone hambúrguer) */
+/* Menu Toggle (hambúrguer) para mobile */
 .menu-toggle {
-    display: none; /* Escondido por padrão (desktop) */
+    display: none;
     flex-direction: column;
     justify-content: space-around;
     width: 30px;
     height: 25px;
     cursor: pointer;
-    padding: 5px; /* Área de clique um pouco maior */
+    padding: 5px;
     box-sizing: border-box;
 }
 
@@ -73,54 +72,48 @@ nav ul li a {
     border-radius: 2px;
 }
 
-/* Responsive Design - Mobile */
+/* Mobile Responsive */
 @media (max-width: 768px) {
-    header nav ul { /* O .nav-list */
-        display: none; /* **IMPORTANTE: Escondido por padrão no mobile** */
+    nav ul.nav-list {
+        display: none;
         flex-direction: column;
         width: 100%;
-        background-color: #333; /* Cor de fundo para o menu dropdown */
+        background-color: #333;
         position: absolute;
-        top: 60px; /* Ajuste conforme a altura do seu header */
+        top: 60px;
         left: 0;
         padding: 0;
         z-index: 999;
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
-
-    header nav ul.active { /* **IMPORTANTE: Estilo para quando o menu está ativo/aberto** */
-        display: flex !important; /* Usa !important para garantir que sobreponha o display: none */
+    nav ul.nav-list.active {
+        display: flex !important;
     }
-
-    header nav ul li {
+    nav ul.nav-list li {
         margin: 0;
         width: 100%;
         text-align: center;
     }
-
-    header nav ul li a {
+    nav ul.nav-list li a {
         padding: 15px 20px;
-        border-bottom: 1px solid #444; /* Separador entre itens */
+        border-bottom: 1px solid #444;
     }
-
-    header nav ul li:last-child a {
+    nav ul.nav-list li:last-child a {
         border-bottom: none;
     }
-
     .menu-toggle {
-        display: flex; /* Mostra o ícone hambúrguer no mobile */
+        display: flex;
     }
-
-    /* Se você tem um nav ul diferente para desktop que precisa ser escondido, faça aqui */
-    /* Ex: .desktop-nav { display: none; } */
 }
 
+/* Main */
 main {
-    margin-top: 80px; /* Compensa a altura do cabeçalho fixo */
-    margin-bottom: 80px; /* Compensa a altura do rodapé fixo */
+    margin-top: 80px;
+    margin-bottom: 80px;
     padding: 20px;
 }
 
+/* Seções */
 .section1, .section2, .section3 {
     display: flex;
     flex-direction: column;
@@ -129,9 +122,9 @@ main {
     text-align: center;
     padding: 30px;
     margin-bottom: 30px;
-    background-color: #fffbea; /* alterado para combinar com o body */
-    border-radius: 16px;       /* opcional: deixa as caixas mais suaves */
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04); /* opcional: leve sombra */
+    background-color: #fffbea;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
 }
 
 .section1 img {
@@ -141,7 +134,8 @@ main {
     padding: 20px;
 }
 
-.section2 .btn-formulario {
+/* Botão de matrícula e formulários */
+.btn-formulario {
     display: inline-block;
     padding: 16px 32px;
     background: #1976d2;
@@ -154,16 +148,12 @@ main {
     transition: background 0.2s, box-shadow 0.2s;
     margin-top: 32px;
 }
-
-.section2 .btn-formulario:hover {
+.btn-formulario:hover {
     background: #1251a3;
     box-shadow: 0 4px 16px rgba(25, 118, 210, 0.16);
 }
 
-.section2 h2 {
-    margin-bottom: 32px;
-}
-
+/* Footer */
 footer {
     display: flex;
     justify-content: center;
@@ -175,29 +165,23 @@ footer {
     width: 100%;
     bottom: 0;
 }
-
 footer a {
     color: #fff;
     text-decoration: none;
 }
-
 footer img {
     max-height: 70px;
     max-width: 90px;
     margin-left: 10px;
     padding: 10px;
-    
 }
-
 .footer1 {
-    
     display: flex;
     align-items: center;
     padding-right: 30px;
-    
 }
 
-/* Estilo para a página do repositório */
+/* Página Repositório */
 .repository {
     max-width: 500px;
     margin: 40px auto 60px auto;
@@ -237,20 +221,53 @@ footer img {
     color: #b68c00;
 }
 
+.termos-lista {
+    margin: 8px 0 16px 20px;
+    padding-left: 20px;
+}
+
+/* Separador */
+.separador {
+    margin: 40px 0;
+    border-top: 2px solid #eee;
+}
+
+/* Página Trabalhos */
+.trabalhos-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fffbea;
+    border-radius: 8px;
+}
+.trabalho-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+}
+.trabalho-item:last-child {
+    border-bottom: none;
+}
+.curso-group h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #3e7c45;
+    border-bottom: 2px solid #3e7c45;
+    padding-bottom: 5px;
+}
+
+/* Estilos para formulários (se aplicável) */
 #submission-form {
     display: flex;
     flex-direction: column;
     gap: 14px;
     margin-top: 10px;
 }
-
 #submission-form label {
     text-align: left;
     font-weight: 500;
     color: #7c5c00;
     margin-bottom: 2px;
 }
-
 #submission-form input[type="text"],
 #submission-form input[type="email"],
 #submission-form input[type="file"] {
@@ -260,11 +277,9 @@ footer img {
     background: #fff;
     font-size: 1rem;
 }
-
 #submission-form input[type="file"] {
     background: #fffbea;
 }
-
 #submission-form button {
     background: #b68c00;
     color: #fff;
@@ -277,44 +292,6 @@ footer img {
     margin-top: 10px;
     transition: background 0.2s;
 }
-
 #submission-form button:hover {
     background: #7c5c00;
 }
-
-/* Estilos da página de trabalhos (movido de trabalhos.html) */
- .trabalhos-container {
-     max-width: 900px;
-     margin: 40px auto; /* Ajuste a margem superior se o main já tem margem-top */
-     padding: 20px;
-     background: #fffbea;
-     border-radius: 8px;
- }
- .trabalho-item {
-     border-bottom: 1px solid #eee;
-     padding: 15px 0;
- }
- .trabalho-item:last-child {
-     border-bottom: none;
- }
- /* .trabalho-item h3 já tem um estilo global, mas se precisar de especificidade: */
- .trabalhos-container .trabalho-item h3 { /* Exemplo de especificidade */
-     color: #b68c00;
-     margin-bottom: 5px;
- }
- .trabalho-item p {
-     margin-bottom: 3px;
-     font-size: 0.9em;
- }
- .trabalho-item a {
-     color: #3e7c45;
-     text-decoration: none;
-     font-weight: bold;
- }
- .curso-group h3 { /* Estilo para o título do curso */
-    margin-top: 20px;
-    margin-bottom: 10px;
-    color: #3e7c45;
-    border-bottom: 2px solid #3e7c45;
-    padding-bottom: 5px;
- }
